@@ -39,4 +39,21 @@ public class CarmakerResurce {
 	}
 
 
+	@DELETE
+	//@Transactional
+	public Response deleteProduct(@PathParam("id") int id) {
+		try {
+			Carmaker carmaker = em.find(Carmaker.class, id);
+			em.remove(carmaker);
+			return Response.ok(carmaker).status(Response.Status.OK).build();
+		} catch (Exception e) {
+			String errorMessage = "Error";
+			throw new WebApplicationException(
+					Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+					.entity(errorMessage).type("text/plain").build());
+		}
+	}
+
+
+
 }

@@ -34,5 +34,19 @@ public class CarContainer {
 
 	}
 
+	@Path("/{id}")
+	@GET
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public List<Car> getCarmakerCars(@PathParam("id") int id) {
+		try {
+			List<Car> cars =
+					em.createQuery("SELECT c FROM Car c WHERE c.carmaker.id = :cmId").setParameter("cmId", id).getResultList();
+			return cars;
+		} catch (Exception e) {
+			System.out.println("Errore");
+			return null;
+			}
+
+	}
 
 }
