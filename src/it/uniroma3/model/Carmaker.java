@@ -1,4 +1,4 @@
-package it.uniroma3.resurce;
+package it.uniroma3.model;
 import java.util.Date;
 import java.util.List;
 

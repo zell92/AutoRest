@@ -9,8 +9,8 @@ import javax.persistence.PersistenceContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
-import it.uniroma3.resurce.Car;
-import it.uniroma3.resurce.Carmaker;
+import it.uniroma3.model.Car;
+import it.uniroma3.model.Carmaker;
 
 
 
@@ -42,8 +42,11 @@ public class CarmakerContainer {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response createCarmaker(@FormParam("name") String name) {
 		List<Car> cars = new LinkedList<Car>();
-		Carmaker carmaker = new Carmaker(name, cars);
+		Carmaker carmaker = null;
+		if(!name.equals(""))
+			carmaker=new Carmaker(name, cars);
 		try {
+
 			em.persist(carmaker);
 			return Response.created(URI.create("/" + carmaker.getId())).entity(carmaker).build();
 		} catch (Exception e)  {

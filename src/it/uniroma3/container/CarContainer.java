@@ -9,8 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import it.uniroma3.resurce.Car;
-import it.uniroma3.resurce.Carmaker;
+
+import it.uniroma3.model.Car;
+import it.uniroma3.model.Carmaker;
 
 
 @Stateless
