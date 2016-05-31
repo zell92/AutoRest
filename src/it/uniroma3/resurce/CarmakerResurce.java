@@ -22,7 +22,6 @@ public class CarmakerResurce {
 
 	@PersistenceContext(unitName = "unit-progetto")
 	private EntityManager em;
-	
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Carmaker getCarmaker(@PathParam("id") int id) {

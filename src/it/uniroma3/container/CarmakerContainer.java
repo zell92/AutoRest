@@ -42,9 +42,7 @@ public class CarmakerContainer {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response createCarmaker(@FormParam("name") String name) {
 		List<Car> cars = new LinkedList<Car>();
-		Carmaker carmaker = null;
-		if(!name.equals(""))
-			carmaker=new Carmaker(name, cars);
+		Carmaker carmaker = new Carmaker(name, cars);
 		try {
 			em.persist(carmaker);
 			return Response.created(URI.create("/" + carmaker.getId())).entity(carmaker).build();

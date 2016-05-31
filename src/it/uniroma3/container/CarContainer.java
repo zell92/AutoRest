@@ -33,7 +33,7 @@ public class CarContainer {
 		} catch (Exception e) {
 			System.out.println("Errore");
 			return null;
-		}
+			}
 
 	}
 
@@ -48,10 +48,10 @@ public class CarContainer {
 		} catch (Exception e) {
 			System.out.println("Errore");
 			return null;
-		}
+			}
 
 	}
-
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response createCar(
@@ -59,20 +59,11 @@ public class CarContainer {
 			@FormParam("price") Float price,
 			@FormParam("description") String description,
 			@FormParam("code") String code,
-			@FormParam("carmakerId") String carmakerId) {
+			@FormParam("carmakerId") Long carmakerId) {
 		Carmaker cm = null;
-		Long cmId=null;
 		try {
-			if(model.equals(""))
-				model=null;
-			if(code.equals(""))
-				code=null;
-			if(carmakerId.equals(""))
-				cmId=null;
-			else
-				cmId=Long.parseLong(carmakerId);
-			//if(carmakerId!=null)
-				//cm = em.find(Carmaker.class, carmakerId);
+			if(carmakerId!=null)
+			 cm = em.find(Carmaker.class, carmakerId);
 			Car car = new Car(model,price,description,code,cm);
 			em.persist(car);
 			return Response.created(URI.create("/" + car.getId())).entity(car).build();
@@ -83,9 +74,9 @@ public class CarContainer {
 					.entity(errorMessage).type("text/plain").build());
 		}
 	}
-
-
-
-
+	
+	
+	
+	
 
 }
