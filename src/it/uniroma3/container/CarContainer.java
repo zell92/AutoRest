@@ -59,11 +59,17 @@ public class CarContainer {
 			@FormParam("price") Float price,
 			@FormParam("description") String description,
 			@FormParam("code") String code,
-			@FormParam("carmakerId") Long carmakerId) {
+			@FormParam("carmakerId") String carmakerId) {
 		Carmaker cm = null;
+		Long cmId=null;
 		try {
-			if(carmakerId!=null)
-			 cm = em.find(Carmaker.class, carmakerId);
+			if(model.equals(""))
+				model=null;
+			if(code.equals(""))
+				price=null;
+			if(!carmakerId.equals(""))
+				cmId=Long.parseLong(carmakerId);
+			 cm = em.find(Carmaker.class, cmId);
 			Car car = new Car(model,price,description,code,cm);
 			em.persist(car);
 			return Response.created(URI.create("/" + car.getId())).entity(car).build();
