@@ -14,7 +14,7 @@ import it.uniroma3.resurce.Car;
 
 
 @Stateless
-@Path("/carmaker")
+@Path("/carmaker/{id}")
 public class CarmakerResurce {
 
 	@Context
@@ -22,7 +22,7 @@ public class CarmakerResurce {
 
 	@PersistenceContext(unitName = "unit-progetto")
 	private EntityManager em;
-	@Path("/{id}")
+	
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Carmaker getCarmaker(@PathParam("id") int id) {
@@ -41,7 +41,6 @@ public class CarmakerResurce {
 		}
 	}
 
-	@Path("/{id}")
 	@DELETE
 	public Response deleteCarmaker(@PathParam("id") int id) {
 		try {
@@ -56,23 +55,6 @@ public class CarmakerResurce {
 		}
 	}
 	
-	@Path("/{name}")
-	@PUT
-	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response insertCarmaker(@PathParam("name") String name) {
-		try {
-			List<Car> cars = new LinkedList<Car>();
-			Carmaker carmaker = new Carmaker(name, cars);
-			em.persist(carmaker);
-			
-			return Response.ok(carmaker).status(Response.Status.OK).build();
-		} catch (Exception e) {
-			String errorMessage = "Error";
-			throw new WebApplicationException(
-					Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.entity(errorMessage).type("text/plain").build());
-		}
-	}
 
 
 }

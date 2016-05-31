@@ -1,6 +1,8 @@
 package it.uniroma3.container;
 
 
+import java.net.URI;
+import java.util.LinkedList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -8,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import it.uniroma3.resurce.Car;
+import it.uniroma3.resurce.Carmaker;
 
 
 @Stateless
@@ -30,7 +33,7 @@ public class CarContainer {
 		} catch (Exception e) {
 			System.out.println("Errore");
 			return null;
-			}
+		}
 
 	}
 
@@ -45,8 +48,44 @@ public class CarContainer {
 		} catch (Exception e) {
 			System.out.println("Errore");
 			return null;
-			}
+		}
 
 	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response createCar(
+			@FormParam("model") String model,
+			@FormParam("price") Float price,
+			@FormParam("description") String description,
+			@FormParam("code") String code,
+			@FormParam("carmakerId") String carmakerId) {
+		Carmaker cm = null;
+		Long cmId=null;
+		try {
+			if(model.equals(""))
+				model=null;
+			if(code.equals(""))
+				code=null;
+			if(carmakerId.equals(""))
+				cmId=null;
+			else
+				cmId=Long.parseLong(carmakerId);
+			//if(carmakerId!=null)
+				//cm = em.find(Carmaker.class, carmakerId);
+			Car car = new Car(model,price,description,code,cm);
+			em.persist(car);
+			return Response.created(URI.create("/" + car.getId())).entity(car).build();
+		} catch (Exception e)  {
+			String errorMessage = "Error";
+			throw new WebApplicationException(
+					Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+					.entity(errorMessage).type("text/plain").build());
+		}
+	}
+
+
+
+
 
 }
